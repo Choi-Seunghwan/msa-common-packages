@@ -1,9 +1,13 @@
 import { DynamicModule, Global, Module } from "@nestjs/common";
-import { JwtModule } from "@nestjs/jwt";
+import { JwtModule, JwtService } from "@nestjs/jwt";
 import { AuthorizationService } from "./authorization.service";
 
 @Global()
-@Module({})
+@Module({
+  imports: [JwtModule.register({})],
+  providers: [AuthorizationService],
+  exports: [AuthorizationService, JwtModule],
+})
 export class AuthorizationModule {
   static forRoot(param: { jwtSecret: string }): DynamicModule {
     return {
@@ -14,7 +18,7 @@ export class AuthorizationModule {
           secret: param.jwtSecret,
         }),
       ],
-      providers: [AuthorizationService],
+      providers: [AuthorizationService, JwtService],
       exports: [AuthorizationService, JwtModule],
     };
   }
