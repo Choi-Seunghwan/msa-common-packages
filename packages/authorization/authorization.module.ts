@@ -1,14 +1,19 @@
-import { Module } from "@nestjs/common";
+import { Module, DynamicModule } from "@nestjs/common";
 import { JwtModule } from "@nestjs/jwt";
 import { AuthorizationService } from "./authorization.service";
 
-@Module({
-  imports: [
-    JwtModule.register({
-      secret: process.env.JWT_SECRET,
-    }),
-  ],
-  providers: [AuthorizationService],
-  exports: [AuthorizationService],
-})
-export class AuthorizationModule {}
+@Module({})
+export class AuthorizationModule {
+  static register(jwtSecret: string): DynamicModule {
+    return {
+      module: AuthorizationModule,
+      imports: [
+        JwtModule.register({
+          secret: jwtSecret,
+        }),
+      ],
+      providers: [AuthorizationService],
+      exports: [AuthorizationService],
+    };
+  }
+}
