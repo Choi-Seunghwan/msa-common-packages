@@ -12,9 +12,16 @@ export class AuthorizationModule {
         ConfigModule,
         JwtModule.registerAsync({
           imports: [ConfigModule],
-          useFactory: async (configService: ConfigService) => ({
-            secret: configService.getOrThrow<string>("JWT_SECRET"),
-          }),
+          useFactory: async (configService: ConfigService) => {
+            const secret = configService.get<string>(
+              "JWT_SECRET",
+              "default-secret"
+            );
+            console.log("✅ JwtModule Initialized with Secret:", secret);
+            return {
+              secret,
+            };
+          },
           inject: [ConfigService],
         }),
       ],
