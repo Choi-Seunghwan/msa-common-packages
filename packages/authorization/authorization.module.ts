@@ -15,7 +15,7 @@ export class AuthorizationModule {
         }),
       ],
       providers: [AuthorizationService],
-      exports: [AuthorizationService],
+      exports: [AuthorizationService, JwtModule],
     };
   }
 }
