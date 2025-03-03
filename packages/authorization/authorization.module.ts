@@ -1,8 +1,9 @@
-import { Module, DynamicModule } from "@nestjs/common";
+import { Module, DynamicModule, Global } from "@nestjs/common";
 import { JwtModule, JwtService } from "@nestjs/jwt";
 import { ConfigModule, ConfigService } from "@nestjs/config";
 import { AuthorizationService } from "./authorization.service";
 
+@Global()
 @Module({})
 export class AuthorizationModule {
   static register(): DynamicModule {
