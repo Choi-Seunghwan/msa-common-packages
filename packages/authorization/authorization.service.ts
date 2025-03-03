@@ -5,7 +5,10 @@ import { TOKEN_EXPIRES_IN } from "./constants/authorization.constant";
 
 @Injectable()
 export class AuthorizationService {
-  constructor(private readonly jwtService: JwtService) {}
+  constructor(private readonly jwtService: JwtService) {
+    console.log("✅ AuthorizationService Initialized");
+    console.log("✅ jwtService:", this.jwtService ? "Injected" : "Undefined");
+  }
 
   async generateToken(
     payload: Omit<JwtPayload, "iat" | "exp">
