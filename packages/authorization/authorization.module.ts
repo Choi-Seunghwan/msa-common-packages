@@ -4,7 +4,11 @@ import { AuthorizationService } from "./authorization.service";
 
 @Global()
 @Module({
-  imports: [JwtModule.register({})],
+  imports: [
+    JwtModule.register({
+      global: true,
+    }),
+  ],
   providers: [AuthorizationService],
   exports: [AuthorizationService, JwtModule],
 })
