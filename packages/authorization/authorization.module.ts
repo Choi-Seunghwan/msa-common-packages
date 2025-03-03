@@ -1,5 +1,5 @@
 import { Module, DynamicModule } from "@nestjs/common";
-import { JwtModule } from "@nestjs/jwt";
+import { JwtModule, JwtService } from "@nestjs/jwt";
 import { ConfigModule, ConfigService } from "@nestjs/config";
 import { AuthorizationService } from "./authorization.service";
 
@@ -13,11 +13,8 @@ export class AuthorizationModule {
         JwtModule.registerAsync({
           imports: [ConfigModule],
           useFactory: async (configService: ConfigService) => {
-            const secret = configService.get<string>(
-              "JWT_SECRET",
-              "default-secret"
-            );
-            console.log("✅ JwtModule Initialized with Secret:", secret);
+            const secret = configService.getOrThrow<string>("JWT_SECRET");
+
             return {
               secret,
             };
@@ -25,8 +22,18 @@ export class AuthorizationModule {
           inject: [ConfigService],
         }),
       ],
-      providers: [AuthorizationService],
-      exports: [AuthorizationService],
+      providers: [
+        AuthorizationService,
+        {
+          provide: JwtService,
+          useExisting: JwtService,
+        },
+        {
+          provide: ConfigService,
+          useExisting: ConfigService,
+        },
+      ],
+      exports: [AuthorizationService, JwtModule, ConfigService],
     };
   }
 }
