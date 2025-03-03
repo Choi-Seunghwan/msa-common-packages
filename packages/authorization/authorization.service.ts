@@ -1,15 +1,11 @@
 import { HttpException, Injectable } from "@nestjs/common";
-import { ConfigService } from "@nestjs/config";
 import { JsonWebTokenError, JwtService, TokenExpiredError } from "@nestjs/jwt";
 import { JwtPayload } from "./types/authorization.type";
 import { TOKEN_EXPIRES_IN } from "./constants/authorization.constant";
 
 @Injectable()
 export class AuthorizationService {
-  constructor(
-    private readonly jwtService: JwtService,
-    private readonly configService: ConfigService
-  ) {}
+  constructor(private readonly jwtService: JwtService) {}
 
   async generateToken(
     payload: Omit<JwtPayload, "iat" | "exp">
@@ -24,18 +20,14 @@ export class AuthorizationService {
       exp: expirationTime,
     };
 
-    const token = await this.jwtService.signAsync(fullPayload, {
-      secret: this.configService.getOrThrow("JWT_SECRET"),
-    });
+    const token = await this.jwtService.signAsync(fullPayload);
 
     return token;
   }
 
   async validateToken(token: string): Promise<JwtPayload> {
     try {
-      const payload = await this.jwtService.verifyAsync(token, {
-        secret: this.configService.getOrThrow("JWT_SECRET"),
-      });
+      const payload = await this.jwtService.verifyAsync(token);
 
       return payload;
     } catch (e) {

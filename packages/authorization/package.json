@@ -1,6 +1,6 @@
 {
   "name": "@choi-seunghwan/authorization",
-  "version": "0.1.6",
+  "version": "0.1.7",
   "description": "Authorization module for NestJS microservices",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -13,7 +13,6 @@
   },
   "dependencies": {
     "@nestjs/common": "^11.0.10",
-    "@nestjs/config": "^4.0.0",
     "@nestjs/core": "^11.0.10",
     "@nestjs/jwt": "^11.0.0"
   },
