@@ -15,6 +15,8 @@ export class AuthorizationModule {
           useFactory: async (configService: ConfigService) => {
             const secret = configService.getOrThrow<string>("JWT_SECRET");
 
+            console.log("@@@", configService.get("JWT_SECRET"));
+
             return {
               secret,
             };
@@ -22,18 +24,8 @@ export class AuthorizationModule {
           inject: [ConfigService],
         }),
       ],
-      providers: [
-        AuthorizationService,
-        {
-          provide: JwtService,
-          useExisting: JwtService,
-        },
-        {
-          provide: ConfigService,
-          useExisting: ConfigService,
-        },
-      ],
-      exports: [AuthorizationService, JwtModule, ConfigService],
+      providers: [AuthorizationService],
+      exports: [AuthorizationService],
     };
   }
 }
