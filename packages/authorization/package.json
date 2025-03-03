@@ -1,5 +1,5 @@
 {
-  "name": "@chorong/authorization",
+  "name": "@choi-seunghwan/authorization",
   "version": "0.1.0",
   "description": "Authorization module for NestJS microservices",
   "main": "dist/index.js",
