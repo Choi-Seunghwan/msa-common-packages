@@ -17,11 +17,12 @@ export class AuthorizationModule {
     return {
       module: AuthorizationModule,
       global: true,
-      // imports: [
-      //   JwtModule.register({
-      //     secret: param.jwtSecret,
-      //   }),
-      // ],
+      imports: [
+        JwtModule.register({
+          global: true,
+          secret: param.jwtSecret,
+        }),
+      ],
       providers: [AuthorizationService, JwtService],
       exports: [AuthorizationService, JwtModule],
     };
