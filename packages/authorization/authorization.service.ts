@@ -1,14 +1,14 @@
-import { HttpException, Injectable } from "@nestjs/common";
+import { HttpException, Inject, Injectable } from "@nestjs/common";
 import { JsonWebTokenError, JwtService, TokenExpiredError } from "@nestjs/jwt";
 import { JwtPayload } from "./types/authorization.type";
 import { TOKEN_EXPIRES_IN } from "./constants/authorization.constant";
 
 @Injectable()
 export class AuthorizationService {
-  constructor(private readonly jwtService: JwtService) {
-    console.log("✅ AuthorizationService Initialized");
-    console.log("✅ jwtService:", this.jwtService ? "Injected" : "Undefined");
-  }
+  constructor(
+    private readonly jwtService: JwtService
+    // @Inject("JWT_SECRET") private readonly jwtSecret: string
+  ) {}
 
   async generateToken(
     payload: Omit<JwtPayload, "iat" | "exp">
