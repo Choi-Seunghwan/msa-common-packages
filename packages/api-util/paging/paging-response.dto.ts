@@ -6,7 +6,7 @@ export class PagingResponse<T> {
   readonly totalPages: number;
   [key: string]: any;
 
-  private constructor(
+  constructor(
     items: T[],
     total: number,
     currentPage: number,
