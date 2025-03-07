@@ -4,10 +4,10 @@ export class PagingRequestDto {
   @IsOptional()
   @IsNumber()
   @Min(1)
-  page?: number;
+  page?: number = 1;
 
   @IsOptional()
   @IsNumber()
   @Min(1)
-  size?: number;
+  size?: number = 10;
 }
