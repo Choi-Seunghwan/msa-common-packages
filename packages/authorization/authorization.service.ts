@@ -10,10 +10,8 @@ export class AuthorizationService {
     // @Inject("JWT_SECRET") private readonly jwtSecret: string
   ) {}
 
-  async generateToken(
-    payload: Omit<JwtPayload, "iat" | "exp">
-  ): Promise<string> {
-    const expiresIn = TOKEN_EXPIRES_IN;
+  async generateToken(payload: Omit<JwtPayload, "iat">): Promise<string> {
+    const expiresIn = payload.exp || TOKEN_EXPIRES_IN;
     const issuedAt = Math.floor(Date.now() / 1000);
     const expirationTime = issuedAt + expiresIn;
 
@@ -40,5 +38,13 @@ export class AuthorizationService {
         throw new HttpException("REQUIRED_TOKEN", 401);
       else throw e;
     }
+  }
+
+  async refreshToken(token: string, exp: number): Promise<string> {
+    const payload = await this.validateToken(token);
+
+    payload.exp = exp;
+
+    return this.generateToken(payload);
   }
 }
